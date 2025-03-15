@@ -1,0 +1,302 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Список ставків";
+}
+
+<h2>Список ставків</h2>
+
+<!-- Кнопка для розгортання/згортання фільтрів -->
+<p>
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">
+        Фільтрування
+    </button>
+    <a asp-page="./Index" class="btn btn-secondary">Очистити фільтри</a>
+</p>
+
+<!-- Блок з формою фільтрації, що розгортається -->
+<div class="collapse" id="filterCollapse">
+    <div class="card card-body mb-3">
+        <form method="get">
+            <!-- Ряд 1 -->
+            <div class="row">
+                <div class="col-md-3">
+                    <label>Id</label>
+                    <input type="number" name="idFilter" value="@Model.IdFilter" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label>Назва</label>
+                    <input type="text" name="nameFilter" value="@Model.NameFilter" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label>Район</label>
+                    <input type="text" name="districtFilter" value="@Model.DistrictFilter" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label>ТГ</label>
+                    <input type="text" name="territorialCommunityFilter" value="@Model.TerritorialCommunityFilter" class="form-control" />
+                </div>
+            </div>
+            <!-- Ряд 2 -->
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <label>Населений пункт</label>
+                    <input type="text" name="settlementFilter" value="@Model.SettlementFilter" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label>Координати</label>
+                    <input type="text" name="coordinatesFilter" value="@Model.CoordinatesFilter" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label>Довжина</label>
+                    <input type="number" step="any" name="lengthFilter" value="@Model.LengthFilter" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label>Ширина</label>
+                    <input type="number" step="any" name="widthFilter" value="@Model.WidthFilter" class="form-control" />
+                </div>
+            </div>
+            <!-- Ряд 3 -->
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <label>Глибина</label>
+                    <input type="number" step="any" name="depthFilter" value="@Model.DepthFilter" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label>Підпірний рівень</label>
+                    <input type="number" step="any" name="waterLevelFilter" value="@Model.WaterLevelFilter" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label>Об'єм</label>
+                    <input type="number" step="any" name="volumeFilter" value="@Model.VolumeFilter" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label>Площа орендованої ділянки</label>
+                    <input type="number" step="any" name="leasedAreaFilter" value="@Model.LeasedAreaFilter" class="form-control" />
+                </div>
+            </div>
+            <!-- Ряд 4 -->
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <label>Кадастровий номер</label>
+                    <input type="text" name="cadastralNumberFilter" value="@Model.CadastralNumberFilter" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label>Площа водного плеса</label>
+                    <input type="number" step="any" name="waterSurfaceAreaFilter" value="@Model.WaterSurfaceAreaFilter" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label>Спускний</label>
+                    <select name="isDrainableFilter" class="form-control">
+                        <option value="">Будь-який</option>
+                        @if (Model.IsDrainableFilter == true)
+                        {
+                            <option value="true" selected>Так</option>
+                        }
+                        else
+                        {
+                            <option value="true">Так</option>
+                        }
+                        @if (Model.IsDrainableFilter == false)
+                        {
+                            <option value="false" selected>Ні</option>
+                        }
+                        else
+                        {
+                            <option value="false">Ні</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label>Гідроспоруда</label>
+                    <select name="hasHydraulicStructureFilter" class="form-control">
+                        <option value="">Будь-який</option>
+                        @if (Model.HasHydraulicStructureFilter == true)
+                        {
+                            <option value="true" selected>Так</option>
+                        }
+                        else
+                        {
+                            <option value="true">Так</option>
+                        }
+                        @if (Model.HasHydraulicStructureFilter == false)
+                        {
+                            <option value="false" selected>Ні</option>
+                        }
+                        else
+                        {
+                            <option value="false">Ні</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <!-- Ряд 5: Фільтрація за пов'язаними сутностями -->
+            <div class="row mt-2">
+                <div class="col-md-4">
+                    <label>Ідентифікаційний код орендаря</label>
+                    <input type="text" name="lesseeIdentificationCodeFilter" value="@Model.LesseeIdentificationCodeFilter" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label>Номер договору оренди</label>
+                    <input type="text" name="leaseAgreementNumberFilter" value="@Model.LeaseAgreementNumberFilter" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <label>Номер дозволу на водокористування</label>
+                    <input type="text" name="waterUsagePermitNumberFilter" value="@Model.WaterUsagePermitNumberFilter" class="form-control" />
+                </div>
+            </div>
+            <!-- Ряд 6 -->
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <label>Річка</label>
+                    <input type="text" name="riverFilter" value="@Model.RiverFilter" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label>Басейн</label>
+                    <input type="text" name="basinFilter" value="@Model.BasinFilter" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label>Стан</label>
+                    <input type="text" name="statusFilter" value="@Model.StatusFilter" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label>Порушення</label>
+                    <input type="text" name="issuesFilter" value="@Model.IssuesFilter" class="form-control" />
+                </div>
+            </div>
+            <!-- Ряд 7 -->
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <label>Примітки</label>
+                    <input type="text" name="notesFilter" value="@Model.NotesFilter" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label>Накладені штрафи</label>
+                    <input type="number" step="any" name="imposedFinesFilter" value="@Model.ImposedFinesFilter" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label>Накладені збитки</label>
+                    <input type="number" step="any" name="imposedDamagesFilter" value="@Model.ImposedDamagesFilter" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label>Стягнуті штрафи</label>
+                    <input type="number" step="any" name="collectedFinesFilter" value="@Model.CollectedFinesFilter" class="form-control" />
+                </div>
+            </div>
+            <!-- Ряд 8 -->
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <label>Стягнуті збитки</label>
+                    <input type="number" step="any" name="collectedDamagesFilter" value="@Model.CollectedDamagesFilter" class="form-control" />
+                </div>
+            </div>
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">Фільтрувати</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Таблиця ставок -->
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Назва</th>
+            <th>Район</th>
+            <th>ТГ</th>
+            <th>Населений пункт</th>
+            <th>Координати</th>
+            <th>Параметри ставка</th>
+            <th>Об'єм</th>
+            <th>Площа орендованої ділянки</th>
+            <th>Кадастровий номер</th>
+            <th>Площа водного плеса</th>
+            <th>Спускний</th>
+            <th>Гідроспоруда</th>
+            <th>Балансоутримувач гідроспоруди</th>
+            <th>Орендар</th>
+            <th>Договір оренди</th>
+            <th>Дозвіл на водокористування</th>
+            <th>Річка</th>
+            <th>Басейн</th>
+            <th>Стан</th>
+            <th>Порушення</th>
+            <th>Примітки</th>
+            <th>Накладені штрафи</th>
+            <th>Накладені збитки</th>
+            <th>Стягнуті штрафи</th>
+            <th>Стягнуті збитки</th>
+            <th>Дії</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pond in Model.Ponds)
+        {
+            <tr>
+                <td>@pond.Id</td>
+                <td>@pond.Name</td>
+                <td>@pond.District</td>
+                <td>@pond.TerritorialCommunity</td>
+                <td>@pond.Settlement</td>
+                <td>@pond.Coordinates</td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton_@pond.Id" data-bs-toggle="dropdown" aria-expanded="false">
+                            Параметри ставка
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton_@pond.Id">
+                            <li><span class="dropdown-item-text">Довжина: @pond.Length</span></li>
+                            <li><span class="dropdown-item-text">Ширина: @pond.Width</span></li>
+                            <li><span class="dropdown-item-text">Глибина: @pond.Depth</span></li>
+                            <li><span class="dropdown-item-text">Підпірний рівень: @pond.WaterLevel</span></li>
+                        </ul>
+                    </div>
+                </td>
+                <td>@pond.Volume</td>
+                <td>@pond.LeasedArea</td>
+                <td>@pond.CadastralNumber</td>
+                <td>@pond.WaterSurfaceArea</td>
+                <td>@pond.IsDrainable</td>
+                <td>@pond.HasHydraulicStructure</td>
+                <td>@pond.HydraulicStructureOwner</td>
+                <td>
+                    @if (pond.Lessee != null)
+                    {
+                        <div><strong>@pond.Lessee.Name</strong></div>
+                        <div>Тип: @pond.Lessee.Type</div>
+                        <div>Код: @pond.Lessee.IdentificationCode</div>
+                    }
+                </td>
+                <td>
+                    @if (pond.LeaseAgreement != null)
+                    {
+                        <div><strong>@pond.LeaseAgreement.Number</strong></div>
+                        <div>Дата: @pond.LeaseAgreement.Date.ToShortDateString()</div>
+                        <div>Термін: @pond.LeaseAgreement.TermInYears років</div>
+                    }
+                </td>
+                <td>
+                    @if (pond.WaterUsagePermit != null)
+                    {
+                        <div><strong>@pond.WaterUsagePermit.Number</strong></div>
+                        <div>Початок: @pond.WaterUsagePermit.StartDate.ToShortDateString()</div>
+                        <div>Термін: @pond.WaterUsagePermit.TermInYears років</div>
+                    }
+                </td>
+                <td>@pond.River</td>
+                <td>@pond.Basin</td>
+                <td>@pond.Status</td>
+                <td>@pond.Issues</td>
+                <td>@pond.Notes</td>
+                <td>@pond.ImposedFines</td>
+                <td>@pond.ImposedDamages</td>
+                <td>@pond.CollectedFines</td>
+                <td>@pond.CollectedDamages</td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@pond.Id" class="btn btn-sm btn-primary">Редагувати</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

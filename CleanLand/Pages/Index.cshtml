@@ -1,0 +1,40 @@
+﻿@page
+@model CleanLand.Pages.IndexModel
+@{
+    ViewData["Title"] = "Головна";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Ласкаво просимо до системи управління водними ресурсами</h1>
+    <div class="mt-5">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Ставки</h5>
+                        <p class="card-text">Управління водними об'єктами</p>
+                        <a asp-page="/Ponds/Index" class="btn btn-primary">Перейти</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Орендарі</h5>
+                        <p class="card-text">Керування орендарями</p>
+                        <a asp-page="/Lessees/Index" class="btn btn-primary">Перейти</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Термінове</h5>
+                        <p class="card-text">Договори та дозволи</p>
+                        <a asp-page="/Expiring/LeaseAgreements" class="btn btn-warning">Перевірити</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

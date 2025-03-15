@@ -1,0 +1,6 @@
+@CleanLand_HostAddress = http://localhost:5042
+
+GET {{CleanLand_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

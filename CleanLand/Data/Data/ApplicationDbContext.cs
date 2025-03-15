@@ -24,20 +24,6 @@ namespace CleanLand.Data.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Pond>()
-                .HasOne(p => p.Lessee)
-                .WithMany(l => l.Ponds)
-                .HasForeignKey(p => p.LesseeId);
-
-            modelBuilder.Entity<Pond>()
-                .HasOne(p => p.LeaseAgreement)
-                .WithMany(la => la.Ponds)
-                .HasForeignKey(p => p.LeaseAgreementId);
-
-            modelBuilder.Entity<Pond>()
-                .HasOne(p => p.WaterUsagePermit)
-                .WithMany(wup => wup.Ponds)
-                .HasForeignKey(p => p.WaterUsagePermitId);
 
             // Configure one-to-many relationship: A forest has many deforestation data entries
             modelBuilder.Entity<AreaData>()

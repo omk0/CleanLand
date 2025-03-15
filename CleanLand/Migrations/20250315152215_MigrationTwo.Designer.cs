@@ -4,6 +4,7 @@ using CleanLand.Data.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanLand.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250315152215_MigrationTwo")]
+    partial class MigrationTwo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -416,19 +419,19 @@ namespace CleanLand.Migrations
             modelBuilder.Entity("CleanLand.Data.Models.Pond", b =>
                 {
                     b.HasOne("CleanLand.Data.Models.LeaseAgreement", "LeaseAgreement")
-                        .WithMany()
+                        .WithMany("Ponds")
                         .HasForeignKey("LeaseAgreementId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CleanLand.Data.Models.Lessee", "Lessee")
-                        .WithMany()
+                        .WithMany("Ponds")
                         .HasForeignKey("LesseeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CleanLand.Data.Models.WaterUsagePermit", "WaterUsagePermit")
-                        .WithMany()
+                        .WithMany("Ponds")
                         .HasForeignKey("WaterUsagePermitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -462,9 +465,24 @@ namespace CleanLand.Migrations
                     b.Navigation("Issues");
                 });
 
+            modelBuilder.Entity("CleanLand.Data.Models.LeaseAgreement", b =>
+                {
+                    b.Navigation("Ponds");
+                });
+
+            modelBuilder.Entity("CleanLand.Data.Models.Lessee", b =>
+                {
+                    b.Navigation("Ponds");
+                });
+
             modelBuilder.Entity("CleanLand.Data.Models.Pond", b =>
                 {
                     b.Navigation("Issues");
+                });
+
+            modelBuilder.Entity("CleanLand.Data.Models.WaterUsagePermit", b =>
+                {
+                    b.Navigation("Ponds");
                 });
 #pragma warning restore 612, 618
         }

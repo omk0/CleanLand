@@ -6,6 +6,5 @@
         public string Number { get; set; } // Номер
         public DateTime StartDate { get; set; } // Дата початку
         public int TermInYears { get; set; } // Термін дії у роках
-        public ICollection<Pond> Ponds { get; set; } // Navigation property
     }
 }

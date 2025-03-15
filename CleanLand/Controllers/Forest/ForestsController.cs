@@ -2,7 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using CleanLand.Business.Interfaces;
 using CleanLand.Data.Data;
+using CleanLand.Data.Models;
 
 namespace CleanLand.Controllers.Forest
 {
@@ -25,6 +27,7 @@ namespace CleanLand.Controllers.Forest
         public double AverageYearHumidity { get; set; }
         public int FireIncidentsAmount { get; set; }
         public double CriticalityScore { get; set; }
+        public List<Issue>? Issues { get; set; }
     }
 
     public class TreeSpecie
@@ -52,10 +55,12 @@ namespace CleanLand.Controllers.Forest
     public class ForestController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IForestService _forestService;
 
-        public ForestController(ApplicationDbContext context)
+        public ForestController(ApplicationDbContext context, IForestService forestService)
         {
             _context = context;
+            _forestService = forestService;
         }
 
         [HttpGet]
@@ -67,6 +72,7 @@ namespace CleanLand.Controllers.Forest
         [HttpPost]
         public async Task<ActionResult<Forest>> CreateForest(Forest forest)
         {
+            forest.CriticalityScore = _forestService.CalculateCriticalityScore(forest);
             _context.Forests.Add(forest);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetForests), new { id = forest.Id }, forest);
@@ -82,6 +88,11 @@ namespace CleanLand.Controllers.Forest
 
             _context.Entry(forest).State = EntityState.Modified;
             await _context.SaveChangesAsync();
+
+            var dbForest = await _context.Forests.FirstAsync( f => f.Id == forest.Id);
+            dbForest.CriticalityScore = _forestService.CalculateCriticalityScore(forest);
+            await _context.SaveChangesAsync();
+
             return NoContent();
         }
 

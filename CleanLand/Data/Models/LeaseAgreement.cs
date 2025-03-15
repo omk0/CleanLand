@@ -7,6 +7,5 @@
         public DateTime Date { get; set; } // Дата
         public int TermInYears { get; set; } // Термін дії у роках
         public string EconomicActivities { get; set; } // Види господарської діяльності
-        public ICollection<Pond> Ponds { get; set; } // Navigation property
     }
 }

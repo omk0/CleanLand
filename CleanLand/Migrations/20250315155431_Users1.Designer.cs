@@ -4,6 +4,7 @@ using CleanLand.Data.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanLand.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250315155431_Users1")]
+    partial class Users1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,9 +67,6 @@ namespace CleanLand.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("District")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("FireIncidentsAmount")
@@ -258,14 +258,14 @@ namespace CleanLand.Migrations
                     b.Property<decimal>("CollectedFines")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("Coordinates")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("CriticalityScore")
                         .HasColumnType("float");
 
                     b.Property<double>("Depth")
                         .HasColumnType("float");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("District")
                         .HasColumnType("nvarchar(max)");
@@ -294,7 +294,7 @@ namespace CleanLand.Migrations
                     b.Property<bool>("IsEutrophicated")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("LeaseAgreementId")
+                    b.Property<int>("LeaseAgreementId")
                         .HasColumnType("int");
 
                     b.Property<double>("LeasedArea")
@@ -303,10 +303,13 @@ namespace CleanLand.Migrations
                     b.Property<double>("Length")
                         .HasColumnType("float");
 
-                    b.Property<int?>("LesseeId")
+                    b.Property<int>("LesseeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("OxygenSaturation")
@@ -339,16 +342,10 @@ namespace CleanLand.Migrations
                     b.Property<double>("WaterSurfaceArea")
                         .HasColumnType("float");
 
-                    b.Property<int?>("WaterUsagePermitId")
+                    b.Property<int>("WaterUsagePermitId")
                         .HasColumnType("int");
 
                     b.Property<double>("Width")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("XLocation")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("YLocation")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
@@ -621,15 +618,21 @@ namespace CleanLand.Migrations
                 {
                     b.HasOne("CleanLand.Data.Models.LeaseAgreement", "LeaseAgreement")
                         .WithMany()
-                        .HasForeignKey("LeaseAgreementId");
+                        .HasForeignKey("LeaseAgreementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CleanLand.Data.Models.Lessee", "Lessee")
                         .WithMany()
-                        .HasForeignKey("LesseeId");
+                        .HasForeignKey("LesseeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CleanLand.Data.Models.WaterUsagePermit", "WaterUsagePermit")
                         .WithMany()
-                        .HasForeignKey("WaterUsagePermitId");
+                        .HasForeignKey("WaterUsagePermitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("LeaseAgreement");
 

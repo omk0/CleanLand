@@ -7,7 +7,8 @@
         public string? District { get; set; }
         public string? TerritorialCommunity { get; set; }
         public string? Settlement { get; set; }
-        public string? Coordinates { get; set; }
+        public double? XLocation { get; set; }
+        public double? YLocation { get; set; }
         public double Length { get; set; }
         public double Width { get; set; }
         public double Depth { get; set; }
@@ -19,17 +20,14 @@
         public bool IsDrainable { get; set; }
         public bool HasHydraulicStructure { get; set; }
         public string? HydraulicStructureOwner { get; set; }
-        public int LesseeId { get; set; }
         public Lessee? Lessee { get; set; }
-        public int LeaseAgreementId { get; set; }
         public LeaseAgreement? LeaseAgreement { get; set; }
-        public int WaterUsagePermitId { get; set; }
         public WaterUsagePermit? WaterUsagePermit { get; set; }
         public string? River { get; set; }
         public string? Basin { get; set; }
         public string? Status { get; set; }
         public List<Issue?>? Issues { get; set; }
-        public string? Notes { get; set; }
+        public string? Description { get; set; }
         public decimal ImposedFines { get; set; } = 0;
         public decimal ImposedDamages { get; set; } = 0;
         public decimal CollectedFines { get; set; } = 0;

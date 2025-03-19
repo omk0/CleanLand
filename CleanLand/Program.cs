@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using CleanLand.Business.Interfaces;
 using CleanLand.Business.Services;
 using CleanLand.Data.Data;
+using CleanLand.Data.Models;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +26,10 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<IPondService, PondService>();
 builder.Services.AddScoped<ILesseeService, LesseeService>();
 builder.Services.AddScoped<IForestService, ForestService>();
+
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

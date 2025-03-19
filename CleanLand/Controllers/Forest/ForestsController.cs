@@ -14,6 +14,7 @@ namespace CleanLand.Controllers.Forest
         public int Id { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
+        public string? District { get; set; }
         public double XLocation { get; set; }
         public double YLocation { get; set; }
         public string? NGO { get; set; }

@@ -217,11 +217,11 @@ namespace CleanLand.Business.Services
                 {
                     string issues = issue.Description.ToLower();
 
-                    if (issues.Contains("пожеж") || issues.Contains("хім"))
+                    if (issues.Contains("fire") || issues.Contains("chem"))
                         technicalRisk = Math.Max(technicalRisk, 0.9);
-                    else if (issues.Contains("відход") || issues.Contains("мертв"))
+                    else if (issues.Contains("pollut") || issues.Contains("dead"))
                         technicalRisk = Math.Max(technicalRisk, 0.7);
-                    else if (issues.Contains("смітт"))
+                    else if (issues.Contains("garb"))
                         technicalRisk = Math.Max(technicalRisk, 0.6);
                 }
             }

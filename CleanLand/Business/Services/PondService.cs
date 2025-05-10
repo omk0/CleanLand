@@ -186,49 +186,18 @@ namespace CleanLand.Business.Services
 
             // Оцінка стану на основі наявних даних
 
-            // Фактор наявності гідроспоруд
-            if (pond.HasHydraulicStructure)
-            {
-                // Якщо є гідроспоруда, але немає власника - вищий ризик
-                bool hasOwner = !string.IsNullOrEmpty(pond.HydraulicStructureOwner);
-                technicalRisk = hasOwner ? 0.3 : 0.7;
-            }
-            else
-            {
-                // Якщо немає гідроспоруди, ризик залежить від того, чи ставок спускний
-                technicalRisk = pond.IsDrainable ? 0.4 : 0.6;
-            }
-
-            // Аналіз стану на основі поля Status (якщо містить інформацію про технічний стан)
-            if (!string.IsNullOrEmpty(pond.Status))
-            {
-                string status = pond.Status.ToLower();
-
-                if (status.Contains("аварійн") || status.Contains("критичн"))
-                    technicalRisk = 1.0;
-                else if (status.Contains("незадовільн"))
-                    technicalRisk = 0.8;
-                else if (status.Contains("задовільн"))
-                    technicalRisk = 0.5;
-                else if (status.Contains("добр"))
-                    technicalRisk = 0.3;
-                else if (status.Contains("відмінн"))
-                    technicalRisk = 0.1;
-            }
-
             // Аналіз проблем на основі поля Issues (якщо містить інформацію про технічні проблеми)
             if (pond.Issues != null)
             {
-                int issuesAmount = 0;
                 foreach (var issue in pond.Issues)
                 {
                     string issues = issue.Description.ToLower();
 
-                    if (issues.Contains("мікроорган") || issues.Contains("плів") || issues.Contains("запах"))
+                    if (issues.Contains("fire") || issues.Contains("chem"))
                         technicalRisk = Math.Max(technicalRisk, 0.9);
-                    else if (issues.Contains("смітт") || issues.Contains("мертв"))
+                    else if (issues.Contains("pollut") || issues.Contains("dead"))
                         technicalRisk = Math.Max(technicalRisk, 0.7);
-                    else if (issues.Contains("мутн"))
+                    else if (issues.Contains("garb"))
                         technicalRisk = Math.Max(technicalRisk, 0.6);
                 }
             }

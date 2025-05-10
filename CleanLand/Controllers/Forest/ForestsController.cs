@@ -78,6 +78,20 @@ namespace CleanLand.Controllers.Forest
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetForests), new { id = forest.Id }, forest);
         }
+        
+        [HttpPost("batch")]
+        public async Task<ActionResult> CreateForests(List<Forest> forests)
+        {
+            foreach (var forest in forests)
+            {
+                forest.CriticalityScore = _forestService.CalculateCriticalityScore(forest);
+                _context.Forests.Add(forest);
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok(forests);
+        }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateForest(int id, Forest forest)

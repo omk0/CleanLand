@@ -9,5 +9,6 @@ namespace CleanLand.Business.Interfaces
         Task AddPondAsync(Pond pond);
         Task UpdatePondAsync(Pond pond);
         Task DeletePondAsync(int id);
+        double CalculateCriticalityScore(Pond pond);
     }
 }

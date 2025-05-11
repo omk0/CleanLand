@@ -1,14 +1,10 @@
 ﻿namespace CleanLand.Data.Models
 {
-    public class Pond
+    public class Pond : EnvironmentalAsset
     {
-        public int Id { get; set; }
-        public string? Name { get; set; }
-        public string? District { get; set; }
+        public string AssetType { get; set; } = "Pond";
         public string? TerritorialCommunity { get; set; }
         public string? Settlement { get; set; }
-        public double? XLocation { get; set; }
-        public double? YLocation { get; set; }
         public double Length { get; set; }
         public double Width { get; set; }
         public double Depth { get; set; }
@@ -27,7 +23,6 @@
         public string? Basin { get; set; }
         public string? Status { get; set; }
         public List<Issue?>? Issues { get; set; }
-        public string? Description { get; set; }
         public decimal ImposedFines { get; set; } = 0;
         public decimal ImposedDamages { get; set; } = 0;
         public decimal CollectedFines { get; set; } = 0;
@@ -45,6 +40,5 @@
         public bool HasIndustryNearby { get; set; } // Наявність промислових об'єктів поряд
 
         // Індекс критичності
-        public double CriticalityScore { get; set; } // Загальний індекс критичності
     }
 }

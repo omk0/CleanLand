@@ -11,6 +11,7 @@ namespace CleanLand.Data.Data
     public class ApplicationDbContext : IdentityDbContext<User>
     {
         public DbSet<Pond> Ponds { get; set; }
+        public DbSet<EnvironmentalAsset> EnvironmentalAssets { get; set; }
         public DbSet<Lessee> Lessees { get; set; }
         public DbSet<LeaseAgreement> LeaseAgreements { get; set; }
         public DbSet<WaterUsagePermit> WaterUsagePermits { get; set; }
@@ -20,10 +21,14 @@ namespace CleanLand.Data.Data
         public DbSet<AreaData> DeforestationDatas { get; set; }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Volunteer> Volunteers { get; set; }
+        
+        public DbSet<Vacancy> Vacancies { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+            // Database.Migrate();
             Database.EnsureCreated();
         }
 
@@ -62,9 +67,23 @@ namespace CleanLand.Data.Data
                     TonsOfSequesteredPotential = 5000000000,
                     AverageYearTemperature = 27.5,
                     FireIncidentsAmount = 50,
-                    CriticalityScore = 8.5
+                    CriticalityScore = 8.5,
+                    District = "Amazons"
                 }
             );
+            
+            modelBuilder
+                .Entity<EnvironmentalAsset>()
+                .HasDiscriminator<string>("AssetType")
+                .HasValue<Forest>("Forest")
+                .HasValue<Pond>("Pond");
+
+            modelBuilder
+                .Entity<Vacancy>()
+                .HasOne(v => v.Object)
+                .WithMany()      // no collection back on Forest/Pond
+                .HasForeignKey("ObjectId")
+                .IsRequired();
         }
     }
 }

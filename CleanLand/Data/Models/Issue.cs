@@ -6,6 +6,6 @@
         public DateTime Date { get; set; }
         public string? Description { get; set; }
         public bool IsResolved { get; set; }
-
+        public bool isAccepted { get; set; }
     }
 }

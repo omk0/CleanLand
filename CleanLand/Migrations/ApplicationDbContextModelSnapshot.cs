@@ -22,7 +22,7 @@ namespace CleanLand.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CleanLand.Controllers.Forest.AreaData", b =>
+            modelBuilder.Entity("CleanLand.Data.Models.AreaData", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -46,7 +46,7 @@ namespace CleanLand.Migrations
                     b.ToTable("DeforestationDatas");
                 });
 
-            modelBuilder.Entity("CleanLand.Controllers.Forest.Forest", b =>
+            modelBuilder.Entity("CleanLand.Data.Models.EnvironmentalAsset", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -54,11 +54,10 @@ namespace CleanLand.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<double>("AverageYearHumidity")
-                        .HasColumnType("float");
-
-                    b.Property<double>("AverageYearTemperature")
-                        .HasColumnType("float");
+                    b.Property<string>("AssetType")
+                        .IsRequired()
+                        .HasMaxLength(21)
+                        .HasColumnType("nvarchar(21)");
 
                     b.Property<double>("CriticalityScore")
                         .HasColumnType("float");
@@ -69,26 +68,8 @@ namespace CleanLand.Migrations
                     b.Property<string>("District")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("FireIncidentsAmount")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsProtectedByLaw")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("NGO")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("TonsOfSequesteredPotential")
-                        .HasColumnType("float");
-
-                    b.Property<double>("TonsOfSequesteredToDate")
-                        .HasColumnType("float");
-
-                    b.Property<long?>("TreesAmount")
-                        .HasColumnType("bigint");
 
                     b.Property<double>("XLocation")
                         .HasColumnType("float");
@@ -98,57 +79,11 @@ namespace CleanLand.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Forests");
+                    b.ToTable("EnvironmentalAssets");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AverageYearHumidity = 0.0,
-                            AverageYearTemperature = 27.5,
-                            CriticalityScore = 8.5,
-                            Description = "One of the world's largest and most diverse forests.",
-                            FireIncidentsAmount = 50,
-                            IsProtectedByLaw = true,
-                            NGO = "Amazon Conservation Association",
-                            Name = "Amazon Rainforest",
-                            TonsOfSequesteredPotential = 5000000000.0,
-                            TonsOfSequesteredToDate = 1000000000.0,
-                            TreesAmount = 390000000000L,
-                            XLocation = -3.4653,
-                            YLocation = -62.215899999999998
-                        });
-                });
+                    b.HasDiscriminator<string>("AssetType").HasValue("EnvironmentalAsset");
 
-            modelBuilder.Entity("CleanLand.Controllers.Forest.TreeSpecie", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CommonName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsEndemic")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsInvasive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ScientificName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TaxonomicClassification")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TreeSpecies");
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("CleanLand.Data.Models.Issue", b =>
@@ -173,6 +108,9 @@ namespace CleanLand.Migrations
 
                     b.Property<int?>("PondId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("isAccepted")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -235,7 +173,7 @@ namespace CleanLand.Migrations
                     b.ToTable("Lessees");
                 });
 
-            modelBuilder.Entity("CleanLand.Data.Models.Pond", b =>
+            modelBuilder.Entity("CleanLand.Data.Models.TreeSpecie", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -243,123 +181,27 @@ namespace CleanLand.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AlgalBloomFrequency")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Basin")
+                    b.Property<string>("CommonName")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CadastralNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("CollectedDamages")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("CollectedFines")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<double>("CriticalityScore")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Depth")
-                        .HasColumnType("float");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("District")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("HasAgricultureNearby")
+                    b.Property<bool>("IsEndemic")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("HasHydraulicStructure")
+                    b.Property<bool>("IsInvasive")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("HasIndustryNearby")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("HydraulicStructureOwner")
+                    b.Property<string>("ScientificName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("ImposedDamages")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("ImposedFines")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("IsDrainable")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsEutrophicated")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("LeaseAgreementId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("LeasedArea")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Length")
-                        .HasColumnType("float");
-
-                    b.Property<int?>("LesseeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("TaxonomicClassification")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("OxygenSaturation")
-                        .HasColumnType("float");
-
-                    b.Property<double>("PollutantConcentration")
-                        .HasColumnType("float");
-
-                    b.Property<string>("River")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Settlement")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TerritorialCommunity")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Volume")
-                        .HasColumnType("float");
-
-                    b.Property<double>("WaterLevel")
-                        .HasColumnType("float");
-
-                    b.Property<double>("WaterQualityIndex")
-                        .HasColumnType("float");
-
-                    b.Property<double>("WaterSurfaceArea")
-                        .HasColumnType("float");
-
-                    b.Property<int?>("WaterUsagePermitId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Width")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("XLocation")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("YLocation")
-                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LeaseAgreementId");
-
-                    b.HasIndex("LesseeId");
-
-                    b.HasIndex("WaterUsagePermitId");
-
-                    b.ToTable("Ponds");
+                    b.ToTable("TreeSpecies");
                 });
 
             modelBuilder.Entity("CleanLand.Data.Models.User", b =>
@@ -425,6 +267,77 @@ namespace CleanLand.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("CleanLand.Data.Models.Vacancy", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AppliedPeople")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NeededPeople")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ObjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Wage")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ObjectId");
+
+                    b.ToTable("Vacancies");
+                });
+
+            modelBuilder.Entity("CleanLand.Data.Models.Volunteer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("AppliedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("VacancyId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VacancyId");
+
+                    b.ToTable("Volunteers");
                 });
 
             modelBuilder.Entity("CleanLand.Data.Models.WaterUsagePermit", b =>
@@ -598,9 +511,163 @@ namespace CleanLand.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CleanLand.Controllers.Forest.AreaData", b =>
+            modelBuilder.Entity("CleanLand.Data.Models.Forest", b =>
                 {
-                    b.HasOne("CleanLand.Controllers.Forest.Forest", null)
+                    b.HasBaseType("CleanLand.Data.Models.EnvironmentalAsset");
+
+                    b.Property<double>("AverageYearHumidity")
+                        .HasColumnType("float");
+
+                    b.Property<double>("AverageYearTemperature")
+                        .HasColumnType("float");
+
+                    b.Property<int>("FireIncidentsAmount")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsProtectedByLaw")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("NGO")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("TonsOfSequesteredPotential")
+                        .HasColumnType("float");
+
+                    b.Property<double>("TonsOfSequesteredToDate")
+                        .HasColumnType("float");
+
+                    b.Property<long?>("TreesAmount")
+                        .HasColumnType("bigint");
+
+                    b.HasDiscriminator().HasValue("Forest");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CriticalityScore = 8.5,
+                            Description = "One of the world's largest and most diverse forests.",
+                            District = "Amazons",
+                            Name = "Amazon Rainforest",
+                            XLocation = -3.4653,
+                            YLocation = -62.215899999999998,
+                            AverageYearHumidity = 0.0,
+                            AverageYearTemperature = 27.5,
+                            FireIncidentsAmount = 50,
+                            IsProtectedByLaw = true,
+                            NGO = "Amazon Conservation Association",
+                            TonsOfSequesteredPotential = 5000000000.0,
+                            TonsOfSequesteredToDate = 1000000000.0,
+                            TreesAmount = 390000000000L
+                        });
+                });
+
+            modelBuilder.Entity("CleanLand.Data.Models.Pond", b =>
+                {
+                    b.HasBaseType("CleanLand.Data.Models.EnvironmentalAsset");
+
+                    b.Property<int>("AlgalBloomFrequency")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Basin")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CadastralNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("CollectedDamages")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("CollectedFines")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<double>("Depth")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("HasAgricultureNearby")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasHydraulicStructure")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasIndustryNearby")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("HydraulicStructureOwner")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("ImposedDamages")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("ImposedFines")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("IsDrainable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsEutrophicated")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("LeaseAgreementId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("LeasedArea")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Length")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("LesseeId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("OxygenSaturation")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PollutantConcentration")
+                        .HasColumnType("float");
+
+                    b.Property<string>("River")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Settlement")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TerritorialCommunity")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Volume")
+                        .HasColumnType("float");
+
+                    b.Property<double>("WaterLevel")
+                        .HasColumnType("float");
+
+                    b.Property<double>("WaterQualityIndex")
+                        .HasColumnType("float");
+
+                    b.Property<double>("WaterSurfaceArea")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("WaterUsagePermitId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Width")
+                        .HasColumnType("float");
+
+                    b.HasIndex("LeaseAgreementId");
+
+                    b.HasIndex("LesseeId");
+
+                    b.HasIndex("WaterUsagePermitId");
+
+                    b.HasDiscriminator().HasValue("Pond");
+                });
+
+            modelBuilder.Entity("CleanLand.Data.Models.AreaData", b =>
+                {
+                    b.HasOne("CleanLand.Data.Models.Forest", null)
                         .WithMany("AreaDatas")
                         .HasForeignKey("ForestId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -608,7 +675,7 @@ namespace CleanLand.Migrations
 
             modelBuilder.Entity("CleanLand.Data.Models.Issue", b =>
                 {
-                    b.HasOne("CleanLand.Controllers.Forest.Forest", null)
+                    b.HasOne("CleanLand.Data.Models.Forest", null)
                         .WithMany("Issues")
                         .HasForeignKey("ForestId");
 
@@ -617,36 +684,37 @@ namespace CleanLand.Migrations
                         .HasForeignKey("PondId");
                 });
 
-            modelBuilder.Entity("CleanLand.Data.Models.Pond", b =>
+            modelBuilder.Entity("CleanLand.Data.Models.Vacancy", b =>
                 {
-                    b.HasOne("CleanLand.Data.Models.LeaseAgreement", "LeaseAgreement")
+                    b.HasOne("CleanLand.Data.Models.EnvironmentalAsset", "Object")
                         .WithMany()
-                        .HasForeignKey("LeaseAgreementId");
+                        .HasForeignKey("ObjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("CleanLand.Data.Models.Lessee", "Lessee")
+                    b.Navigation("Object");
+                });
+
+            modelBuilder.Entity("CleanLand.Data.Models.Volunteer", b =>
+                {
+                    b.HasOne("CleanLand.Data.Models.Vacancy", "Vacancy")
                         .WithMany()
-                        .HasForeignKey("LesseeId");
+                        .HasForeignKey("VacancyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("CleanLand.Data.Models.WaterUsagePermit", "WaterUsagePermit")
-                        .WithMany()
-                        .HasForeignKey("WaterUsagePermitId");
-
-                    b.Navigation("LeaseAgreement");
-
-                    b.Navigation("Lessee");
-
-                    b.Navigation("WaterUsagePermit");
+                    b.Navigation("Vacancy");
                 });
 
             modelBuilder.Entity("ForestTreeSpecie", b =>
                 {
-                    b.HasOne("CleanLand.Controllers.Forest.Forest", null)
+                    b.HasOne("CleanLand.Data.Models.Forest", null)
                         .WithMany()
                         .HasForeignKey("ForestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CleanLand.Controllers.Forest.TreeSpecie", null)
+                    b.HasOne("CleanLand.Data.Models.TreeSpecie", null)
                         .WithMany()
                         .HasForeignKey("TreeSpeciesId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -704,7 +772,28 @@ namespace CleanLand.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CleanLand.Controllers.Forest.Forest", b =>
+            modelBuilder.Entity("CleanLand.Data.Models.Pond", b =>
+                {
+                    b.HasOne("CleanLand.Data.Models.LeaseAgreement", "LeaseAgreement")
+                        .WithMany()
+                        .HasForeignKey("LeaseAgreementId");
+
+                    b.HasOne("CleanLand.Data.Models.Lessee", "Lessee")
+                        .WithMany()
+                        .HasForeignKey("LesseeId");
+
+                    b.HasOne("CleanLand.Data.Models.WaterUsagePermit", "WaterUsagePermit")
+                        .WithMany()
+                        .HasForeignKey("WaterUsagePermitId");
+
+                    b.Navigation("LeaseAgreement");
+
+                    b.Navigation("Lessee");
+
+                    b.Navigation("WaterUsagePermit");
+                });
+
+            modelBuilder.Entity("CleanLand.Data.Models.Forest", b =>
                 {
                     b.Navigation("AreaDatas");
 

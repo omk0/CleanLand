@@ -1,4 +1,5 @@
 ﻿using CleanLand.Controllers.Forest;
+using CleanLand.Data.Models;
 
 namespace CleanLand.Business.Interfaces
 {

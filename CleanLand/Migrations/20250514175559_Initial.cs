@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CleanLand.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -338,7 +338,7 @@ namespace CleanLand.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Issue",
+                name: "Issues",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -352,14 +352,14 @@ namespace CleanLand.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Issue", x => x.Id);
+                    table.PrimaryKey("PK_Issues", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Issue_EnvironmentalAssets_ForestId",
+                        name: "FK_Issues_EnvironmentalAssets_ForestId",
                         column: x => x.ForestId,
                         principalTable: "EnvironmentalAssets",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Issue_EnvironmentalAssets_PondId",
+                        name: "FK_Issues_EnvironmentalAssets_PondId",
                         column: x => x.PondId,
                         principalTable: "EnvironmentalAssets",
                         principalColumn: "Id");
@@ -482,13 +482,13 @@ namespace CleanLand.Migrations
                 column: "TreeSpeciesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Issue_ForestId",
-                table: "Issue",
+                name: "IX_Issues_ForestId",
+                table: "Issues",
                 column: "ForestId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Issue_PondId",
-                table: "Issue",
+                name: "IX_Issues_PondId",
+                table: "Issues",
                 column: "PondId");
 
             migrationBuilder.CreateIndex(
@@ -527,7 +527,7 @@ namespace CleanLand.Migrations
                 name: "ForestTreeSpecie");
 
             migrationBuilder.DropTable(
-                name: "Issue");
+                name: "Issues");
 
             migrationBuilder.DropTable(
                 name: "Volunteers");

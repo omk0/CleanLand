@@ -20,6 +20,7 @@ namespace CleanLand.Business.Services
                 .Include(p => p.Lessee)
                 .Include(p => p.LeaseAgreement)
                 .Include(p => p.WaterUsagePermit)
+                .Include(f=>f.Issues)
                 .ToListAsync();
         }
 
@@ -29,6 +30,7 @@ namespace CleanLand.Business.Services
                 .Include(p => p.Lessee)
                 .Include(p => p.LeaseAgreement)
                 .Include(p => p.WaterUsagePermit)
+                .Include(f=>f.Issues)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 

@@ -6,6 +6,8 @@
         public DateTime Date { get; set; }
         public string? Description { get; set; }
         public bool IsResolved { get; set; }
-        public bool isAccepted { get; set; }
+        public bool IsAccepted { get; set; }
+        public int? ForestId { get; set; }
+        public int? PondId { get; set; }
     }
 }

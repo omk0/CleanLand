@@ -118,7 +118,7 @@ namespace CleanLand.Migrations
 
                     b.HasIndex("PondId");
 
-                    b.ToTable("Issue");
+                    b.ToTable("Issues");
                 });
 
             modelBuilder.Entity("CleanLand.Data.Models.LeaseAgreement", b =>

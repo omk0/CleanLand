@@ -24,6 +24,7 @@ namespace CleanLand.Data.Data
         public DbSet<Volunteer> Volunteers { get; set; }
         
         public DbSet<Vacancy> Vacancies { get; set; }
+        public DbSet<Issue> Issues { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -71,12 +72,11 @@ namespace CleanLand.Data.Data
                     District = "Amazons"
                 }
             );
-            
+
             modelBuilder
                 .Entity<EnvironmentalAsset>()
                 .HasDiscriminator<string>("AssetType")
-                .HasValue<Forest>("Forest")
-                .HasValue<Pond>("Pond");
+                .HasValue<EnvironmentalAsset>("EnvironmentalAsset");
 
             modelBuilder
                 .Entity<Vacancy>()

@@ -24,7 +24,17 @@ namespace CleanLand.Controllers.Forest
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Data.Models.Forest>>> GetForests()
         {
-            return await _context.Forests.Include(f => f.TreeSpecies).Include(f => f.AreaDatas).ToListAsync();
+            return await _context.Forests.Include(f => f.TreeSpecies).Include(f => f.AreaDatas)
+                .Include(f => f.AreaDatas)
+                .Include(f => f.Issues).ToListAsync();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Data.Models.Forest>> GetForest(int id)
+        {
+            return await _context.Forests.Include(f => f.TreeSpecies).Include(f => f.Issues)
+                .Include(f => f.AreaDatas)
+                .FirstOrDefaultAsync(f => f.Id == id);
         }
 
         [HttpPost]
@@ -35,7 +45,7 @@ namespace CleanLand.Controllers.Forest
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetForests), new { id = forest.Id }, forest);
         }
-        
+
         [HttpPost("batch")]
         public async Task<ActionResult> CreateForests(List<Data.Models.Forest> forests)
         {
@@ -61,7 +71,7 @@ namespace CleanLand.Controllers.Forest
             _context.Entry(forest).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            var dbForest = await _context.Forests.FirstAsync( f => f.Id == forest.Id);
+            var dbForest = await _context.Forests.FirstAsync(f => f.Id == forest.Id);
             dbForest.CriticalityScore = _forestService.CalculateCriticalityScore(forest);
             await _context.SaveChangesAsync();
 

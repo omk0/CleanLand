@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanLand.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250511095557_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250514175559_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -121,7 +121,7 @@ namespace CleanLand.Migrations
 
                     b.HasIndex("PondId");
 
-                    b.ToTable("Issue");
+                    b.ToTable("Issues");
                 });
 
             modelBuilder.Entity("CleanLand.Data.Models.LeaseAgreement", b =>
